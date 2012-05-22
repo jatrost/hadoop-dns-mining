@@ -103,5 +103,11 @@ Deploy these decompressed database files to the same location on each machine in
     # extract the 'target' field from the NS records
     time hadoop jar $JAR io.covert.dns.extract.ExtractorJob "$TARGET_EXPR" \
         /data/dns-mining/04_filtered-type=NS /data/dns-mining/05_extracted-nameservers
-
+    
+    HOST_EXPR='if(host !~ "^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\.$")return host.toLowerCase()'
+    
+    # extract the 'host' field from the SOA records
+    time hadoop jar $JAR io.covert.dns.extract.ExtractorJob "$HOST_EXPR" \
+        /data/dns-mining/04_filtered-type=SOA /data/dns-mining/05_extracted-nameservers-SOA
+    
 
