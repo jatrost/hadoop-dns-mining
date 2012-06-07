@@ -30,9 +30,6 @@ This is a small framework for performing large amounts of DNS lookups using Hado
     gzip -d GeoIPASNum.dat.gz
     
 
-Deploy these decompressed database files to the same location on each machine in your Hadoop cluster 
-(e.g. ```/usr/local/lib/maxmind/```)
-
 ### Create/obtain large lists of domain names (e.g. domains.txt) and copy them into HDFS
     
     # you may want to split these domain files before placing in HDFS in order to use more mappers
@@ -76,8 +73,9 @@ Deploy these decompressed database files to the same location on each machine in
     
     # lookup any IP addresses in the results in the maxmind DBs and enrich the records
     time hadoop jar $JAR io.covert.dns.geo.GeoJob \
-        /usr/local/lib/maxmind/GeoLiteCity.dat \
-        /usr/local/lib/maxmind/GeoIPASNum.dat \
+        -files /usr/local/lib/maxmind/GeoLiteCity.dat,/usr/local/lib/maxmind/GeoIPASNum.dat \
+        GeoLiteCity.dat \
+        GeoIPASNum.dat \
         /data/dns-mining/02_parsed  \
         /data/dns-mining/03_enriched
     
